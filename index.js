@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const express = require('express');
+const morgan = require('morgan');
 const postRouter = require('./routes/postRouter');
 const userRouter = require('./routes/userRouter');
 require('dotenv').config();
@@ -10,6 +11,7 @@ const PORT = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.user(morgan('dev'));
 
 app.use('/posts', postRouter);
 app.use('/user', userRouter);

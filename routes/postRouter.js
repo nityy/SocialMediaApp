@@ -1,7 +1,11 @@
 const express = require('express');
+const { fetchPostsByUser, getFeed, newPost, fetchPost, updatePost,
+  deletePost, fetchComments, newComment, updateComment, deleteComment,
+  toggleLike } = require('../controllers/post');
+
 router = express.Router();
 
-router.get('/user', fetchPostsByUser);
+router.get('/byUser/:username', fetchPostsByUser);
 
 router.route('/')
   .get(getFeed)
@@ -22,4 +26,4 @@ router.route('/:postId/comments/:commentId')
 
 router.patch('/:postId/likes', toggleLike);
 
-exports = router;
+module.exports = router;

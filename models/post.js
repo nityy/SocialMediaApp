@@ -2,24 +2,20 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
-  title: String,
-  content: String,
-  creator: {
-    type: ObjectId, ref: User
-  },
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  creator: { type: ObjectId, ref: User, required: true },
   likedBy: {
     type: [{ type: mongoose.ObjectId, ref: 'User' }],
     default: []
   },
-  comments: [commentSchema],
+  comments: { type: [commentSchema], default: [] },
 });
 
 const commentSchema = new Schema({
-  content: { type: String },
-  creator: {
-    type: mongoose.ObjectId, ref: User
-  }
+  content: { type: String, required: true },
+  creator: { type: mongoose.ObjectId, ref: User, required: true }
 });
 
 const Posts = mongoose.model('Post', postSchema);
-exports = Posts
+module.exports = Posts

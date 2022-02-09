@@ -14,10 +14,6 @@ const userSchema = new Schema({
   follows: {
     type: [{ type: mongoose.ObjectId, ref: 'User' }],
     default: []
-  },
-  followers: {
-    type: [{ type: mongoose.ObjectId, ref: 'User' }],
-    default: []
   }
 });
 
