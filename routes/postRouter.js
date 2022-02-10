@@ -1,15 +1,15 @@
 const express = require('express');
 const { fetchPostsByUser, getFeed, newPost, fetchPost, updatePost,
-  deletePost, fetchComments, newComment, updateComment, deleteComment,
+  deletePost, fetchComments, newComment, deleteComment,
   toggleLike } = require('../controllers/post');
 
 router = express.Router();
 
-router.get('/byUser/:username', fetchPostsByUser);
+router.get('/postedby/:username', fetchPostsByUser);
 
 router.route('/')
   .get(getFeed)
-  .post('/', newPost);
+  .post(newPost);
 
 router.route('/:postId')
   .get(fetchPost)
@@ -21,7 +21,6 @@ router.route('/:postId/comments')
   .post(newComment);
 
 router.route('/:postId/comments/:commentId')
-  .put(updateComment)
   .delete(deleteComment);
 
 router.patch('/:postId/likes', toggleLike);

@@ -1,16 +1,16 @@
 const Posts = require('../models/post');
-const mongoose = require('mongoose');
+const Users = require('../models/user');
 
 fetchPostsByUser = async (req, res) => {
   const page = Number(req.query.page) || 1;
   const pageLimit = 10;
   try {
-    const user = req.param.userId;
-    const totalPosts = await Posts.find().where('username').equals(user);
-    const Posts = await totalPosts.sort({ _id: 'desc' })
+    const user = req.params.username;
+    const totalPosts = await Posts.where('creator').equals(user);
+    const posts = await totalPosts.sort({ _id: 'desc' })
       .skip((page - 1) * pageLimit).limit(pageLimit);
     res.status(200).json({
-      posts: Posts,
+      posts: posts,
       currentPage: page,
       totalPages: Math.ceil(totalPosts / pageLimit)
     });
@@ -19,14 +19,30 @@ fetchPostsByUser = async (req, res) => {
   }
 }
 
-getFeed = async (req, res) => {
-
+getFeed = async (req, res) => { // TODO: auth
+  const page = Number(req.query.page) || 1;
+  const pageLimit = 10;
+  try {
+    const user = await Users.where('username').equals(req.user);
+    const follows = user.follows;
+    const totalPosts = await Posts.where('creator').in(follows);
+    const posts = await totalPosts.sort({ _id: 'desc' })
+      .skip((page - 1) * pageLimit).limit(pageLimit);
+    res.status(200).json({
+      posts: posts,
+      currentPage: page,
+      totalPages: Math.ceil(totalPosts / pageLimit)
+    });
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
 }
 
-newPost = async (req, res) => {
-  const newPost = req.body;
+newPost = async (req, res) => { // TODO: auth
   try {
-    reply = await Posts.create({ ...newPost, creator: req.user });
+    const post = req.body;
+    req.user = req.user;
+    const reply = await Posts.create({ ...post, creator: req.user });
     res.status(201).json(reply);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -35,38 +51,83 @@ newPost = async (req, res) => {
 
 fetchPost = async (req, res) => {
   try {
-    const postId = req.param.postId;
+    const postId = req.params.postId;
     const reply = await Posts.findById(postId);
-    res.json(reply);
+    res.status(200).json(reply);
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
 }
 
-updatePost = async (req, res) => {
+updatePost = async (req, res) => { // TODO: creator check + auth
   try {
-    const postId = req.param.postId;
-    const updatedPost = req.body;
-    const reply = await Posts.findByIdAndUpdate(postId, updatedPost,
+    const postId = req.params.postId;
+    const update = req.body;
+    const reply = await Posts.findByIdAndUpdate(postId, update,
       { new: true });
-    res.send(200).json(reply);
+    res.status(200).json(reply);
   } catch (error) {
     res.status(409).json({ error: error.message });
   }
 }
 
-deletePost = async (req, res) => {
+deletePost = async (req, res) => { // TODO: creator check + auth
   try {
-    const postId = req.param.postId;
-    const reply = await Posts.findByIdAndDelete(postId);
-    res.status(204).json(reply);
+    const postId = req.params.postId;
+    await Posts.findByIdAndDelete(postId);
+    res.status(204).end();
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
 }
 
+fetchComments = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const post = await Posts.findById(postId);
+    const reply = post.comments;
+    res.status(200).json(reply);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+}
+
+newComment = async (req, res) => { // TODO: auth
+  try {
+    const postId = req.params.postId;
+    const comment = req.body;
+    const post = await Posts.findById(postId);
+    post.comments.push({ ...comment, creator: req.user });
+    const reply = await post.save();
+    res.status(201).json(reply);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+deleteComment = async (req, res) => { // TODO: creator check + auth
+  try {
+    const postId = req.params.postId;
+    const commentId = req.params.commentId;
+    const post = await Posts.findById(postId);
+    post.comments.id(commentId).remove();
+    await post.save();
+    res.status(204).end();
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+}
+
+toggleLike = async (req, res) => { // TODO: auth
+  try {
+
+  } catch (error) {
+
+  }
+}
+
 module.exports = {
   fetchPostsByUser, getFeed, newPost, fetchPost, updatePost,
-  deletePost, fetchComments, newComment, updateComment, deleteComment,
+  deletePost, fetchComments, newComment, deleteComment,
   toggleLike
 };
