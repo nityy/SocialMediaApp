@@ -18,5 +18,4 @@ const postSchema = new Schema({
   comments: { type: [commentSchema], default: [] },
 });
 
-const Posts = mongoose.model('Post', postSchema);
-module.exports = Posts
+module.exports = mongoose.model('Post', postSchema);

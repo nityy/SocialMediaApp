@@ -1,11 +1,9 @@
 const express = require('express');
-const { fetchPostsByUser, getFeed, newPost, fetchPost, updatePost,
+const { getFeed, newPost, fetchPost, updatePost,
   deletePost, fetchComments, newComment, deleteComment,
   toggleLike } = require('../controllers/post');
 
 router = express.Router();
-
-router.get('/postedby/:username', fetchPostsByUser);
 
 router.route('/')
   .get(getFeed)

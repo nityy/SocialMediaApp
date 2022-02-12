@@ -9,9 +9,9 @@ const dburl = process.env.MONGO_URL;
 const app = express();
 const PORT = 3000;
 
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan('dev'));
 
 app.use('/posts', postRouter);
 // app.use('/user', userRouter);
