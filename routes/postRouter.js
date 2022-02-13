@@ -4,7 +4,7 @@ const { getFeed, newPost, fetchPost, updatePost,
   toggleLike } = require('../controllers/post');
 const tokenCheck = require('../tokenCheck');
 
-router = express.Router();
+const router = express.Router();
 
 router.route('/')
   .get(tokenCheck, getFeed)
