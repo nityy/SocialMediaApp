@@ -29,7 +29,7 @@ signup = async (req, res) => {
     const username = req.body.username;
     const existUser = await Users.findOne({ username: username });
     if (existUser) {
-      res.status(422).json({ message: 'Username already exists!' });
+      res.status(403).json({ message: 'Username already exists!' });
     } else {
       const hash = await bcrypt.hash(req.body.password, 14);
       const user = await Users.create({

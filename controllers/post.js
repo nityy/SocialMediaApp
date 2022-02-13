@@ -43,23 +43,30 @@ fetchPost = async (req, res) => {
   }
 }
 
-updatePost = async (req, res) => { // TODO: creator check
+updatePost = async (req, res) => {
   try {
-    const postId = req.params.postId;
     const update = req.body;
-    const reply = await Posts.findByIdAndUpdate(postId, update,
-      { new: true });
-    res.status(200).json({ data: reply });
+    const post = await Posts.findById(req.params.postId);
+    if (post.creator === req.userId) {
+      const reply = await post.update({ $set: update });
+      res.status(200).json({ data: reply });
+    } else {
+      res.status(403).end();
+    }
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
 }
 
-deletePost = async (req, res) => { // TODO: creator check
+deletePost = async (req, res) => {
   try {
-    const postId = req.params.postId;
-    await Posts.findByIdAndDelete(postId);
-    res.status(204).end();
+    const post = await Posts.findById(req.params.postId);
+    if (post.creator === req.userId) {
+      post.remove();
+      res.status(204).end();
+    } else {
+      res.status(403).end();
+    }
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -89,14 +96,18 @@ newComment = async (req, res) => {
   }
 }
 
-deleteComment = async (req, res) => { // TODO: creator check
+deleteComment = async (req, res) => {
   try {
     const postId = req.params.postId;
     const commentId = req.params.commentId;
     const post = await Posts.findById(postId);
-    post.comments.id(commentId).remove();
-    await post.save();
-    res.status(204).end();
+    const isPoster = (post.creator === req.userId);
+    const isCommenter = (post.comments.id(commentId).creator === req.userId);
+    if (isPoster || isCommenter) {
+      post.comments.id(commentId).remove();
+      await post.save();
+      res.status(204).end();
+    } else res.status(403).json({ message: 'Only post creator or comment creator can delete the comment.' })
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -114,7 +125,7 @@ toggleLike = async (req, res) => {
     const reply = await post.save();
     res.status(200).json({ data: reply });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(404).json({ message: error.message });
   }
 }
 
