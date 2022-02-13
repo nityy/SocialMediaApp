@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const morgan = require('morgan');
 const postRouter = require('./routes/postRouter');
-// const userRouter = require('./routes/userRouter');
+const userRouter = require('./routes/userRouter');
 require('dotenv').config();
 
 const dburl = process.env.MONGO_URL;
@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/posts', postRouter);
-// app.use('/user', userRouter);
+app.use('/user', userRouter);
 
 mongoose.connect(dburl)
   .then(() => {

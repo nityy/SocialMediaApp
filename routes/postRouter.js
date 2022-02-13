@@ -2,25 +2,26 @@ const express = require('express');
 const { getFeed, newPost, fetchPost, updatePost,
   deletePost, fetchComments, newComment, deleteComment,
   toggleLike } = require('../controllers/post');
+const tokenCheck = require('../tokenCheck');
 
 router = express.Router();
 
 router.route('/')
-  .get(getFeed)
-  .post(newPost);
+  .get(tokenCheck, getFeed)
+  .post(tokenCheck, newPost);
 
 router.route('/:postId')
   .get(fetchPost)
-  .put(updatePost)
-  .delete(deletePost);
+  .put(tokenCheck, updatePost)
+  .delete(tokenCheck, deletePost);
 
 router.route('/:postId/comments')
   .get(fetchComments)
-  .post(newComment);
+  .post(tokenCheck, newComment);
 
 router.route('/:postId/comments/:commentId')
-  .delete(deleteComment);
+  .delete(tokenCheck, deleteComment);
 
-router.patch('/:postId/likes', toggleLike);
+router.patch('/:postId/likes', tokenCheck, toggleLike);
 
 module.exports = router;
