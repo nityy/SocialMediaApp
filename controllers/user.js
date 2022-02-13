@@ -10,7 +10,7 @@ signin = async (req, res) => {
     if (existUser) {
       const passCorrect = await bcrypt.compare(req.body.password, existUser.passwordHash);
       if (passCorrect) {
-        token = jwt.sign({ username: username, id = existUser.id },
+        token = jwt.sign({ username: username, id: existUser.id },
           process.env.SECRET, { expiresIn: "24h" }); // why not _id
         res.status(200).json({ message: 'Logged in successfully', existUser, token });
       } else {
