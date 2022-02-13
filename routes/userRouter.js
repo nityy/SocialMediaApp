@@ -1,13 +1,11 @@
 const express = require('express');
-const { signin, signup, toggleFollow, fetchPostsByUser }
-  = require('../controllers/user');
+const user = require('../controllers/user');
 const tokenCheck = require('../tokenCheck');
 
-router = express.Router();
+const router = express.Router();
 
-router.post('signup', signup);
-router.post('signin', signin);
-router.patch('/:username/follows', tokenCheck, toggleFollow);
-router.get('/:username/posts', fetchPostsByUser);
+router.get('/:username', user.userProfile);
+router.patch('/:username/follows', tokenCheck, user.toggleFollow);
+router.get('/:username/posts', user.fetchPostsByUser);
 
 module.exports = router;

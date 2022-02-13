@@ -1,24 +1,27 @@
 const Posts = require('../models/post');
 const Users = require('../models/user');
+const mongoose = require('mongoose')
 
 getFeed = async (req, res) => {
   const page = Number(req.query.page) || 1;
   const pageLimit = 10;
   try {
-    const user = await Users.where('username').equals(req.username);
+    const user = await Users.findById(req.userId);
+    console.log(req.userId);
     const follows = user.follows;
-    const totalPosts = await Posts.where('creator').in(follows);
-    const posts = await totalPosts.sort({ _id: 'desc' })
+    const totalNumberOfPosts = await Posts.where('creator').in(follows)
+      .countDocuments();
+    const posts = await Posts.where('creator').in(follows).sort({ _id: 'desc' })
       .skip((page - 1) * pageLimit).limit(pageLimit);
     res.status(200).json({
       data: {
         posts: posts,
         currentPage: page,
-        totalPages: Math.ceil(totalPosts / pageLimit)
+        totalPages: Math.ceil(totalNumberOfPosts / pageLimit)
       }
     });
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({ message: error.stack });
   }
 }
 
@@ -47,8 +50,8 @@ updatePost = async (req, res) => {
   try {
     const update = req.body;
     const post = await Posts.findById(req.params.postId);
-    if (post.creator === req.userId) {
-      const reply = await post.update({ $set: update });
+    if (post.creator.toString() === req.userId) {
+      const reply = await post.updateOne({ $set: { content: update.content } });
       res.status(200).json({ data: reply });
     } else {
       res.status(403).end();
@@ -61,7 +64,7 @@ updatePost = async (req, res) => {
 deletePost = async (req, res) => {
   try {
     const post = await Posts.findById(req.params.postId);
-    if (post.creator === req.userId) {
+    if (post.creator.toString() === req.userId) {
       post.remove();
       res.status(204).end();
     } else {
@@ -101,13 +104,13 @@ deleteComment = async (req, res) => {
     const postId = req.params.postId;
     const commentId = req.params.commentId;
     const post = await Posts.findById(postId);
-    const isPoster = (post.creator === req.userId);
-    const isCommenter = (post.comments.id(commentId).creator === req.userId);
+    const isPoster = (post.creator.toString() === req.userId);
+    const isCommenter = (post.comments.id(commentId).creator.toString() === req.userId);
     if (isPoster || isCommenter) {
       post.comments.id(commentId).remove();
       await post.save();
       res.status(204).end();
-    } else res.status(403).json({ message: 'Only post creator or comment creator can delete the comment.' })
+    } else res.status(403).end();
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
