@@ -10,8 +10,8 @@ signin = async (req, res) => {
     if (existUser) {
       const passCorrect = await bcrypt.compare(req.body.password, existUser.passwordHash);
       if (passCorrect) {
-        token = jwt.sign({ username: username, id = existUser._id }, process.env.SECRET,
-          { expiresIn: "24h" });
+        token = jwt.sign({ username: username, id = existUser.id },
+          process.env.SECRET, { expiresIn: "24h" }); // why not _id
         res.status(200).json({ message: 'Logged in successfully', existUser, token });
       } else {
         res.status(401).json({ message: 'Invalid Credentials' });
@@ -36,8 +36,8 @@ signup = async (req, res) => {
         username: username,
         passwordHash: hash
       });
-      token = jwt.sign({ username: username, id: user._id }, process.env.SECRET,
-        { expiresIn: "24h" })
+      token = jwt.sign({ username: username, id: user.id },
+        process.env.SECRET, { expiresIn: "24h" }) // why not _id
       res.status(201).json({ message: 'Signed up successfully!', user, token: token });
     }
   } catch (error) {
@@ -46,7 +46,22 @@ signup = async (req, res) => {
 }
 
 toggleFollow = async (req, res) => {
-
+  try {
+    if (req.username !== req.params.username) {
+      return res.status(403).json({ message: 'Cannot change other users\' data' });
+    }
+    const user = await Users.findById(req.userId);
+    const currentFollow = user.follows.indexOf(req.body.targetUserId);
+    if (currentFollow === -1) {
+      user.follows.push(req.body.targetUserId); // convert to objectid?
+    } else {
+      user.follows.filter((id) => id !== req.body.targetUserId);
+    }
+    const reply = await user.save();
+    res.status(200).json({ data: reply });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 }
 
 fetchPostsByUser = async (req, res) => {

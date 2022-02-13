@@ -104,9 +104,17 @@ deleteComment = async (req, res) => { // TODO: creator check
 
 toggleLike = async (req, res) => {
   try {
-
+    const post = await Posts.findById(req.params.postId);
+    const currentLike = post.likedBy.indexOf(req.userId);
+    if (currentLike === -1) {
+      post.likedBy.push(req.userId);
+    } else {
+      post.likedBy.filter((id) => id !== req.userId);
+    }
+    const reply = await post.save();
+    res.status(200).json({ data: reply });
   } catch (error) {
-
+    res.status(400).json({ message: error.message });
   }
 }
 
