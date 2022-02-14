@@ -49,7 +49,7 @@ Demo instance running at [smdemo420.fly.dev](https://smdemo420.fly.dev/)
       - `targetUserId` : \<userId of user to follow>
   - Response
 - `GET /posts` <br>
-Fetches the feed i.e. posts from the followed
+Fetches the feed i.e. posts from the followed users
   - Request
     - Headers
       - `Authorization` : Bearer \<user token>
