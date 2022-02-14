@@ -11,7 +11,7 @@ signin = async (req, res) => {
       const passCorrect = await bcrypt.compare(req.body.password, existUser.passwordHash);
       if (passCorrect) {
         token = jwt.sign({ username: username, id: existUser.id },
-          process.env.SECRET, { expiresIn: "24h" }); // why not _id
+          process.env.SECRET, { expiresIn: "24h" });
         res.status(200).json({ message: 'Logged in successfully', existUser, token });
       } else {
         res.status(401).json({ message: 'Invalid Credentials' });
@@ -37,7 +37,7 @@ signup = async (req, res) => {
         passwordHash: hash
       });
       token = jwt.sign({ username: username, id: user.id },
-        process.env.SECRET, { expiresIn: "24h" }) // why not _id
+        process.env.SECRET, { expiresIn: "24h" })
       res.status(201).json({ message: 'Signed up successfully!', user, token: token });
     }
   } catch (error) {

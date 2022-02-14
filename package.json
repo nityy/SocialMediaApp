@@ -1,12 +1,11 @@
 {
-  "name": "nodeprac",
+  "name": "social-media-demo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node index.js"
   },
   "author": "Nitish",
   "license": "ISC",
@@ -16,9 +15,5 @@
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.1"
-  },
-  "devDependencies": {
-    "morgan": "^1.10.0",
-    "nodemon": "^2.0.15"
   }
 }

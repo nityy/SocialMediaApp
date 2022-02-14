@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const express = require('express');
-const morgan = require('morgan');
 const postRouter = require('./routes/postRouter');
 const userRouter = require('./routes/userRouter');
 const newUser = require('./controllers/user');
@@ -10,7 +9,6 @@ const dburl = process.env.MONGO_URL;
 const app = express();
 const PORT = 3000;
 
-app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

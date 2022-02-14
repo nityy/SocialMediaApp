@@ -119,11 +119,11 @@ deleteComment = async (req, res) => {
 toggleLike = async (req, res) => {
   try {
     const post = await Posts.findById(req.params.postId);
-    const currentLike = post.likedBy.indexOf(req.userId);
+    const currentLike = post.likes.indexOf(req.userId);
     if (currentLike === -1) {
-      post.likedBy.push(req.userId);
+      post.likes.push(req.userId);
     } else {
-      post.likedBy.filter((id) => id !== req.userId);
+      post.likes.filter((id) => id !== req.userId);
     }
     const reply = await post.save();
     res.status(200).json({ data: reply });

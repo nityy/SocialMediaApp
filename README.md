@@ -1,3 +1,93 @@
-# social-media-demo
+# social-media
 
-An Express.js + MongoDB app exposing API endpoints for a demo social media service.
+An Express.js + MongoDB app exposing API endpoints for a social media service using JSON Web Tokens for authentication.
+
+Demo instance running at [smdemo420.fly.dev](https://smdemo420.fly.dev/)
+## Endpoints
+### Public
+- `POST /signup` <br>
+  - Request
+    - Form Data
+      - `username` : \<username>
+      - `password` : \<password>
+  - Response
+- `POST /signin` <br>
+  - Request
+    - Form Data
+      - `username` : \<username>
+      - `password` : \<password>
+  - Response
+- `GET /user/:username` <br>
+  - Request
+    - Path parameters
+      - `:username`
+  - Response
+- `GET /user/:username/posts` <br>
+  - Request
+    - Path parameters
+      - `:username`
+  - Response
+- `GET /posts/:postId` <br>
+  - Request
+    - Path parameters
+      - `:postId`
+  - Response
+- `GET /posts/:postId/comments` <br>
+  - Request
+   - Path parameters
+      - `:postId`
+  - Response
+### Authenticated
+- `PATCH /user/:username/follows` <br>
+  - Request
+    - Headers
+      - `Authorization` : Bearer \<user token>
+    - Path parameters
+      - `:username`
+  - Response
+- `GET /posts` <br>
+  - Request
+    - Headers
+      - `Authorization` : Bearer \<user token>
+  - Response
+- `POST /posts` <br>
+  - Request
+    - Headers
+      - `Authorization` : Bearer \<user token>
+  - Response
+- `PUT /posts/:postId` <br>
+  - Request
+    - Headers
+      - `Authorization` : Bearer \<user token>
+    - Path parameters
+      - `:postId`
+  - Response
+- `DELETE /posts/:postId` <br>
+  - Request
+    - Headers
+      - `Authorization` : Bearer \<user token>
+    - Path parameters
+      - `:postId`
+  - Response
+- `POST /posts/:postId/comments` <br>
+  - Request
+    - Headers
+      - `Authorization` : Bearer \<user token>
+    - Path parameters
+      - `:postId`
+  - Response
+- `DELETE /posts/:postId/comments/:commentId` <br>
+  - Request
+    - Headers
+      - `Authorization` : Bearer \<user token>
+    - Path parameters
+      - `:postId`
+      - `:commentId`
+  - Response
+- `PATCH /posts/:postId/likes` <br>
+  - Request
+    - Headers
+      - `Authorization` : Bearer \<user token>
+    - Path parameters
+      - `:postId`
+  - Response

@@ -11,7 +11,7 @@ const postSchema = new Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
   creator: { type: mongoose.ObjectId, ref: 'User', required: true },
-  likedBy: {
+  likes: {
     type: [{ type: mongoose.ObjectId, ref: 'User' }],
     default: []
   },
