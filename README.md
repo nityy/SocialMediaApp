@@ -43,11 +43,13 @@ Demo instance running at [smdemo420.fly.dev](https://smdemo420.fly.dev/)
     - Headers
       - `Authorization` : Bearer \<user token>
     - Path parameters
-      - `:username` (user with which the client is authenticated)
+      - `:username` <br>
+      (username with which the client is authenticated)
     - Form data
       - `targetUserId` : \<userId of user to follow>
   - Response
 - `GET /posts` <br>
+Fetches the feed i.e. posts from the followed
   - Request
     - Headers
       - `Authorization` : Bearer \<user token>
