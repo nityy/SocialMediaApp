@@ -123,7 +123,7 @@ toggleLike = async (req, res) => {
     if (currentLike === -1) {
       post.likes.push(req.userId);
     } else {
-      post.likes.filter((id) => id !== req.userId);
+      post.likes = post.likes.filter((id) => id.toString() !== req.userId);
     }
     const reply = await post.save();
     res.status(200).json({ data: reply });

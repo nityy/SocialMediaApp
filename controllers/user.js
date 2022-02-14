@@ -90,7 +90,7 @@ fetchPostsByUser = async (req, res) => {
 
 userProfile = async (req, res) => {
   try {
-    const reply = await Users.findOne({ username: req.params.username });
+    const reply = await Users.findOne({ username: req.params.username }, { passwordHash: 0 });
     res.status(200).json({ data: reply });
   } catch (error) {
     res.status(404).json({ message: 'User does not exist!' });

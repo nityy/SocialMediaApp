@@ -22,6 +22,6 @@ router.route('/:postId/comments')
 router.route('/:postId/comments/:commentId')
   .delete(tokenCheck, deleteComment);
 
-router.patch('/:postId/likes', tokenCheck, toggleLike);
+router.post('/:postId/likes', tokenCheck, toggleLike);
 
 module.exports = router;
