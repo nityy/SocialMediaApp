@@ -5,40 +5,42 @@ const Posts = require('../models/post');
 
 signin = async (req, res) => {
   try {
-    const username = req.body.username;
-    const existUser = await Users.findOne({ username: username });
+    const existUser = await Users.findOne({ username: req.body.username },
+      '+passwordHash');
     if (existUser) {
-      const passCorrect = await bcrypt.compare(req.body.password, existUser.passwordHash);
+      const passCorrect = await bcrypt.compare(req.body.password,
+        existUser.passwordHash);
       if (passCorrect) {
-        token = jwt.sign({ username: username, id: existUser.id },
+        token = jwt.sign({ username: req.body.username, id: existUser.id },
           process.env.SECRET, { expiresIn: "24h" });
-        res.status(200).json({ message: 'Logged in successfully', existUser, token });
+        const { _id, username, follows, __v } = existUser;
+        res.status(200).json({ message: 'Logged in successfully', user: { _id, username, follows, __v }, token });
       } else {
         res.status(401).json({ message: 'Invalid Credentials' });
       }
     } else {
-      res.send(400).json({ message: 'User doesn\'t exists!' });
+      res.status(400).json({ message: 'User doesn\'t exists!' });
     }
   } catch (error) {
-
+    res.status(400).json({ message: error.message });
   }
 }
 
 signup = async (req, res) => {
   try {
-    const username = req.body.username;
-    const existUser = await Users.findOne({ username: username });
+    const existUser = await Users.findOne({ username: req.body.username });
     if (existUser) {
       res.status(403).json({ message: 'Username already exists!' });
     } else {
       const hash = await bcrypt.hash(req.body.password, 14);
-      const user = await Users.create({
-        username: username,
+      const newUser = await Users.create({
+        username: req.body.username,
         passwordHash: hash
       });
-      token = jwt.sign({ username: username, id: user.id },
+      token = jwt.sign({ username: newUser.username, id: newUser.id },
         process.env.SECRET, { expiresIn: "24h" })
-      res.status(201).json({ message: 'Signed up successfully!', user, token: token });
+      const { _id, username, follows, __v } = newUser;
+      res.status(201).json({ message: 'Signed up successfully!', user: { _id, username, follows, __v }, token: token });
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -90,7 +92,7 @@ fetchPostsByUser = async (req, res) => {
 
 userProfile = async (req, res) => {
   try {
-    const reply = await Users.findOne({ username: req.params.username }, { passwordHash: 0 });
+    const reply = await Users.findOne({ username: req.params.username });
     res.status(200).json({ data: reply });
   } catch (error) {
     res.status(404).json({ message: 'User does not exist!' });

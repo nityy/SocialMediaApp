@@ -9,7 +9,8 @@ const userSchema = new Schema({
   },
   passwordHash: {
     type: String,
-    required: true
+    required: true,
+    select: false
   },
   follows: {
     type: [{ type: mongoose.ObjectId, ref: 'User' }],

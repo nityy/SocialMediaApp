@@ -13,13 +13,12 @@ Register new user
       - `password` : \<password>
   - Response <br>
     `201`
-    <details><summary>Sample response</summary>
+   <details><summary>Sample response</summary>
 
         {
           "message": "Signed up successfully!",
           "user": {
             "username": "jonhdoe",
-            "passwordHash": "$2b$14$2HsDRogM/8Bw.7Ep9mOlF.BJc3g8a.FtaIpt2KOH8rktDrOn4ap7C",
             "follows": [],
             "_id": "620a2b231b3b610728053989",
             "__v": 0
@@ -27,7 +26,7 @@ Register new user
           "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Impvbmhkb2UiLCJpZCI6IjYyMGEyYjIzMWIzYjYxMDcyODA1Mzk4OSIsImlhdCI6MTY0NDgzMzU3MSwiZXhwIjoxNjQ0OTE5OTcxfQ.O0P31ac7NaIZVB43ZYeRYgrj-aIq9HRDntuDS_NtYrw"
         }
 
-    </details>
+   </details>
 #
 - `POST /signin` <br>
 Login existing user
@@ -44,7 +43,6 @@ Login existing user
         "existUser": {
           "_id": "6209541e23a674980bf81f40",
           "username": "wkinzu",
-          "passwordHash": "$2b$14$Wb4nYuBksEFQK1uFzbo/OeI4F4CV0bkTGwlXoxhIagW/TciB6stUu",
           "follows": [],
           "__v": 0
         },
@@ -185,7 +183,6 @@ Make a user follow/unfollow the target user
         "data": {
           "_id": "620a2b231b3b610728053989",
           "username": "jonhdoe",
-          "passwordHash": "$2b$14$2HsDRogM/8Bw.7Ep9mOlF.BJc3g8a.FtaIpt2KOH8rktDrOn4ap7C",
           "follows": [
             "620954c023a674980bf81f46"
           ],
