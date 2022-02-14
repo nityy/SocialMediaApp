@@ -15,16 +15,16 @@ Register new user
     `201`
    <details><summary>Sample response</summary>
 
-        {
-          "message": "Signed up successfully!",
-          "user": {
-            "username": "jonhdoe",
-            "follows": [],
-            "_id": "620a2b231b3b610728053989",
-            "__v": 0
-          },
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Impvbmhkb2UiLCJpZCI6IjYyMGEyYjIzMWIzYjYxMDcyODA1Mzk4OSIsImlhdCI6MTY0NDgzMzU3MSwiZXhwIjoxNjQ0OTE5OTcxfQ.O0P31ac7NaIZVB43ZYeRYgrj-aIq9HRDntuDS_NtYrw"
-        }
+      {
+        "message": "Signed up successfully!",
+        "user": {
+          "_id": "620a9df64b80e4d747b9f94e",
+          "username": "johndoe",
+          "follows": [],
+          "__v": 0
+        },
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyMjIyd3FkcyIsImlkIjoiNjIwYTlkZjY0YjgwZTRkNzQ3YjlmOTRlIiwiaWF0IjoxNjQ0ODYyOTY2LCJleHAiOjE2NDQ5NDkzNjZ9.780_pR5NENaYXB_wP5S8nc04vqSTZi7wLZreQxF9_vs"
+      }
 
    </details>
 #
@@ -40,7 +40,7 @@ Login existing user
 
       {
         "message": "Logged in successfully",
-        "existUser": {
+        "user": {
           "_id": "6209541e23a674980bf81f40",
           "username": "wkinzu",
           "follows": [],
