@@ -7,13 +7,13 @@ Demo instance running at [smdemo420.fly.dev](https://smdemo420.fly.dev/)
 ### Public
 - `POST /signup` <br>
   - Request
-    - Form Data
+    - Form data
       - `username` : \<username>
       - `password` : \<password>
   - Response
 - `POST /signin` <br>
   - Request
-    - Form Data
+    - Form data
       - `username` : \<username>
       - `password` : \<password>
   - Response
@@ -34,7 +34,7 @@ Demo instance running at [smdemo420.fly.dev](https://smdemo420.fly.dev/)
   - Response
 - `GET /posts/:postId/comments` <br>
   - Request
-   - Path parameters
+    - Path parameters
       - `:postId`
   - Response
 ### Authenticated
@@ -43,7 +43,9 @@ Demo instance running at [smdemo420.fly.dev](https://smdemo420.fly.dev/)
     - Headers
       - `Authorization` : Bearer \<user token>
     - Path parameters
-      - `:username`
+      - `:username` (user with which the client is authenticated)
+    - Form data
+      - `targetUserId` : \<userId of user to follow>
   - Response
 - `GET /posts` <br>
   - Request
@@ -54,6 +56,9 @@ Demo instance running at [smdemo420.fly.dev](https://smdemo420.fly.dev/)
   - Request
     - Headers
       - `Authorization` : Bearer \<user token>
+    - Form data
+      - `title` : \<title of the post>
+      - `content` : \<content of the post>
   - Response
 - `PUT /posts/:postId` <br>
   - Request
@@ -61,6 +66,8 @@ Demo instance running at [smdemo420.fly.dev](https://smdemo420.fly.dev/)
       - `Authorization` : Bearer \<user token>
     - Path parameters
       - `:postId`
+    - Form data
+      - `content` : \<new content of the post>
   - Response
 - `DELETE /posts/:postId` <br>
   - Request
@@ -75,6 +82,8 @@ Demo instance running at [smdemo420.fly.dev](https://smdemo420.fly.dev/)
       - `Authorization` : Bearer \<user token>
     - Path parameters
       - `:postId`
+    - Form data
+      - `content` : \<content of the commment>
   - Response
 - `DELETE /posts/:postId/comments/:commentId` <br>
   - Request
