@@ -28,6 +28,7 @@ Register new user
         }
 
     </details>
+#
 - `POST /signin` <br>
 Login existing user
   - Request
@@ -51,6 +52,7 @@ Login existing user
       }
 
   </details>
+#
 - `GET /user/:username` <br>
 View details of a user
   - Request
@@ -70,6 +72,7 @@ View details of a user
       }
 
   </details>
+#
 - `GET /user/:username/posts` <br>
 View posts from a particular user, 10 at a time
   - Request
@@ -118,6 +121,7 @@ View posts from a particular user, 10 at a time
       }
 
   </details>
+#
 - `GET /posts/:postId` <br>
 View a particular post
   - Request
@@ -141,6 +145,7 @@ View a particular post
       }
 
   </details>
+#
 - `GET /posts/:postId/comments` <br>
 View comments of a particular post
   - Request
@@ -189,6 +194,7 @@ Make a user follow/unfollow the target user
       }
   
   </details>
+#
 - `GET /posts` <br>
 View feed i.e. posts from the followed users, 10 at a time
   - Request
@@ -248,6 +254,7 @@ View feed i.e. posts from the followed users, 10 at a time
       }
   
   </details>
+#
 - `POST /posts` <br>
 Create a new post
   - Request
@@ -273,6 +280,7 @@ Create a new post
       }
 
   </details>
+#
 - `PUT /posts/:postId` <br>
 Update an existing post
   - Request
@@ -297,6 +305,7 @@ Update an existing post
       }
 
   </details>
+#
 - `DELETE /posts/:postId` <br>
 Delete an existing post
   - Request
@@ -306,6 +315,7 @@ Delete an existing post
       - `:postId`
   - Response<br>
   `204`
+#
 - `POST /posts/:postId/comments` <br>
 Create a new comment on a post
   - Request
@@ -339,6 +349,7 @@ Create a new comment on a post
       }
   
   </details>
+#
 - `DELETE /posts/:postId/comments/:commentId` <br>
 Delete an existing comment on a post
   - Request
@@ -349,6 +360,7 @@ Delete an existing comment on a post
       - `:commentId`
   - Response<br>
   `204`
+#
 - `POST /posts/:postId/likes` <br>
 Like/dislike a post
   - Request
