@@ -2,7 +2,6 @@
 
 An Express.js + MongoDB app exposing API endpoints for a social media service using JSON Web Tokens for authentication.
 
-Demo instance [smdemo420.fly.dev](https://smdemo420.fly.dev/) hosted on fly.io with a MongoDB Atlas Free Cluster
 ## Endpoints
 ### Public
 - `POST /signup` <br>
